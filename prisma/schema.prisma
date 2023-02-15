@@ -1,0 +1,38 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Home {
+  id            Int            @id @default(autoincrement())
+  name          String
+  location      String
+  owner         User           @relation(fields: [userId], references: [id])
+  tariff        Float
+  buffer        Float?
+  meterReadings MeterReading[]
+  userId        Int
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String
+  homes Home[]
+}
+
+model MeterReading {
+  id               Int      @id @default(autoincrement())
+  visitorReading   Float
+  ownerReading     Float
+  visitorImage     String
+  ownerImage       String
+  visitorTimestamp DateTime
+  ownerTimestamp   DateTime
+  home             Home     @relation(fields: [homeId], references: [id])
+  homeId           Int
+}
