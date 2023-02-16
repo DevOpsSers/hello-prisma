@@ -8,31 +8,69 @@ generator client {
 }
 
 model Home {
-  id            Int            @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
+  name              String
+  tariff            Float?
+  buffer            Float?
+  meterInstructions String?
+  meterLink         String?
+  agency            Agency?   @relation(fields: [agencyId], references: [id])
+  agencyId          Int?
+  visits            Visit[]
+  bookings          Booking[]
+}
+
+model Agency {
+  id      Int      @id @default(autoincrement())
+  name    String
+  homes   Home[]
+}
+
+model Visit {
+  id             Int              @id @default(autoincrement())
+  startDate      DateTime
+  endDate        DateTime
+  guestReadings  VisitReading[]
+  home           Home            @relation(fields: [homeId], references: [id])
+  homeId         Int
+}
+
+model VisitReading {
+  id           Int      @id @default(autoincrement())
+  readingTime  DateTime
+  guestValue   Float
+  ownerValue   Float
+  image        String
+  visit        Visit    @relation(fields: [visitId], references: [id])
+  visitId      Int
+}
+
+model Booking {
+  id           Int      @id @default(autoincrement())
+  startDate    DateTime
+  endDate      DateTime
+  home         Home     @relation(fields: [homeId], references: [id])
+  homeId       Int
+  guest        Guest    @relation(fields: [guestId], references: [id])
+  guestId      Int
+  guestReadings BookingReading[]
+}
+
+model Guest {
+  id            Int              @id @default(autoincrement())
   name          String
-  location      String
-  owner         User           @relation(fields: [userId], references: [id])
-  tariff        Float
-  buffer        Float?
-  meterReadings MeterReading[]
-  userId        Int
+  bookings      Booking[]
+  guestReadings BookingReading[]
 }
 
-model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String
-  homes Home[]
-}
-
-model MeterReading {
-  id               Int      @id @default(autoincrement())
-  visitorReading   Float
-  ownerReading     Float
-  visitorImage     String
-  ownerImage       String
-  visitorTimestamp DateTime
-  ownerTimestamp   DateTime
-  home             Home     @relation(fields: [homeId], references: [id])
-  homeId           Int
+model BookingReading {
+  id           Int       @id @default(autoincrement())
+  readingTime  DateTime
+  guestValue   Float
+  ownerValue   Float
+  image        String
+  booking      Booking   @relation(fields: [bookingId], references: [id])
+  bookingId    Int
+  guest        Guest     @relation(fields: [guestId], references: [id])
+  guestId      Int
 }

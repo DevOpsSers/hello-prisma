@@ -1,14 +1,22 @@
 {
   "name": "hello-prisma",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dagbolade/hello-prisma.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "bugs": {
+    "url": "https://github.com/dagbolade/hello-prisma/issues"
+  },
+  "homepage": "https://github.com/dagbolade/hello-prisma#readme",
   "devDependencies": {
     "@types/node": "^18.13.0",
     "prisma": "^4.10.1",
@@ -16,10 +24,6 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@prisma/client": "^4.10.1",
-    "express": "^4.18.2",
-    "node": "^19.6.0",
-    "pg": "^8.9.0",
-    "supabase": "^1.38.2"
+    "@prisma/client": "^4.10.1"
   }
 }
